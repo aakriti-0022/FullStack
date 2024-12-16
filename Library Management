@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .login-form, .dashboard {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .login-form h2, .dashboard h2 {
+      margin-bottom: 20px;
+    }
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background: #3063E6;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #254baf;
+    }
+    .logout-btn {
+      margin-top: 20px;
+      display: block;
+    }
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      display: none;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      margin: 0;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Login Form -->
+    <div id="login-section" class="login-form">
+      <h2>Library Management System Login</h2>
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password">
+      <label for="role">Select Role</label>
+      <select id="role">
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+      <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="dashboard hidden">
+      <h2>Admin Dashboard</h2>
+      <button onclick="openModal('manageMembersModal')">Manage Members</button>
+      <button onclick="openModal('manageBooksModal')">Manage Books/Movies</button>
+      <button onclick="openModal('manageUsersModal')">Manage Users</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- User Dashboard -->
+    <div id="user-dashboard" class="dashboard hidden">
+      <h2>User Dashboard</h2>
+      <button onclick="checkAvailability()">Check Book Availability</button>
+      <button onclick="issueBook()">Issue Book</button>
+      <button onclick="returnBook()">Return Book</button>
+      <button onclick="payFine()">Pay Fine</button>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+<!-- Modals for Admin Functionalities -->
+<div id="manageMembersModal" class="modal">
+    <div class="modal-header">
+      <h3>Manage Members</h3>
+      <button class="close-btn" onclick="closeModal('manageMembersModal')">&times;</button>
+    </div>
+    <p>Member management functionality under development.</p>
+  </div>
+
+  <div id="manageBooksModal" class="modal">
+    <div class="modal-header">
+      <h3>Manage Books/Movies</h3>
+      <button class="close-btn" onclick="closeModal('manageBooksModal')">&times;</button>
+    </div>
+    <p>Book/movie management functionality under development.</p>
+  </div>
+
+  <div id="manageUsersModal" class="modal">
+    <div class="modal-header">
+      <h3>Manage Users</h3>
+      <button class="close-btn" onclick="closeModal('manageUsersModal')">&times;</button>
+    </div>
+    <p>User management functionality under development.</p>
+</div>
+</div>
+
+<script>
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const role = document.getElementById('role').value;
+
+  if (!username || !password) {
+    alert('Please enter both username and password.');
+    return;
+}
+
+localStorage.setItem('loggedInRole', role);
+loadDashboard(role);
+}
+
+function loadDashboard(role) {
+document.getElementById('login-section').classList.add('hidden');
+
+if (role === 'admin') {
+  document.getElementById('admin-dashboard').classList.remove('hidden');
+} else if (role === 'user') {
+  document.getElementById('user-dashboard').classList.remove('hidden');
+} else {
+  alert('Invalid role!');
+  logout();
+}
+    }
+
+    function logout() {
+      localStorage.removeItem('loggedInRole');
+      document.getElementById('login-section').classList.remove('hidden');
+      document.getElementById('admin-dashboard').classList.add('hidden');
+      document.getElementById('user-dashboard').classList.add('hidden');
+    }
+
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function checkAvailability() {
+      alert('Checking availability functionality is under development.');
+    }
+
+    function issueBook() {
+      alert('Issuing book functionality is under development.');
+    }
+
+    function returnBook() {
+      alert('Returning book functionality isunder development.');
+    }
+
+    function payFine() {
+      alert('Paying fine functionality is under development.');
+    }
+
+    // Auto-login for debugging or testing purposes
+    window.onload = function () {
+      const role = localStorage.getItem('loggedInRole');
+      if (role) {
+        loadDashboard(role);
+      }
+    };
+  </script>
+</body>
+</html>
