@@ -1,3 +1,0 @@
-# FullStack
-
-Creating Library Management
